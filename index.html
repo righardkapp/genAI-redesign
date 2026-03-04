@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///Users/mac/Downloads/genai-workshops_2.html -->
+<html lang="en" style="--mouse-x: 59.48037589828634%; --mouse-y: 71.91176470588235%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GenAI Masterclass — Daily Maverick × Imagineers.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./GenAI Masterclass — Daily Maverick × Imagineers.ai_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03040f;
+    --surface: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8eaf0;
+    --muted: #8891a8;
+    --accent: #4f8ef7;
+    --accent2: #7c5ff5;
+    --accent3: #1de0c6;
+    --orb1: #1a3a8f;
+    --orb2: #3b1a8f;
+    --orb3: #0f5e7a;
+    --heading-font: 'Syne', sans-serif;
+    --body-font: 'Geist', sans-serif;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: clamp(16px, 2vw, 24px);
+    line-height: 1.65;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── GRADIENT CANVAS (global ambient) ── */
+  .gradient-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.45;
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity 1.2s ease;
+  }
+
+  .orb-1 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #1e4fd6 0%, #0a1a6e 60%, transparent 100%);
+    top: -200px; left: -150px;
+    transform: translate(calc(var(--mouse-x) * -0.04), calc(var(--mouse-y) * -0.04));
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #5b3ad6 0%, #2a0e6e 60%, transparent 100%);
+    top: 30%; right: -100px;
+    transform: translate(calc(var(--mouse-x) * 0.06), calc(var(--mouse-y) * -0.03));
+  }
+  .orb-3 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #0d8a9e 0%, #04304a 60%, transparent 100%);
+    bottom: -100px; left: 20%;
+    transform: translate(calc(var(--mouse-x) * -0.02), calc(var(--mouse-y) * 0.05));
+  }
+  .orb-4 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, #2860e0 0%, #091040 60%, transparent 100%);
+    top: 60%; left: 5%;
+    transform: translate(calc(var(--mouse-x) * 0.03), calc(var(--mouse-y) * 0.04));
+  }
+
+  /* ── HERO GRADIENT SYSTEM ── */
+  /* A dedicated canvas of stacked shapes that parallax at different rates,
+     inspired by the Figma reference: large soft sphere + tighter glowing core
+     + a crescent of contrasting hue along the upper-right edge */
+  .hero-gradient-canvas {
+    position: absolute;
+    inset: -60px -80px -200px -80px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Layer 1 — large deep indigo sphere, bottom-left anchored */
+  .hg-sphere {
+    position: absolute;
+    width: 780px; height: 780px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 58%,
+      #1c3ecc 0%,
+      #0d1f7a 38%,
+      #06103d 65%,
+      transparent 100%);
+    filter: blur(60px);
+    opacity: 0.75;
+    bottom: -220px; left: -120px;
+    transition: transform 1.4s cubic-bezier(0.23,1,0.32,1);
+    transform: translate(calc(var(--mouse-x) * -0.025), calc(var(--mouse-y) * -0.018));
+  }
+
+  /* Layer 2 — medium teal-cyan accent, upper-right, moves opposite direction */
+  .hg-accent {
+    position: absolute;
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 45% 45%,
+      #0be8c8 0%,
+      #0694b0 28%,
+      #053c58 58%,
+      transparent 100%);
+    filter: blur(70px);
+    opacity: 0.35;
+    top: -60px; right: -40px;
+    transition: transform 1.6s cubic-bezier(0.23,1,0.32,1);
+    transform: translate(calc(var(--mouse-x) * 0.04), calc(var(--mouse-y) * -0.03));
+  }
+
+  /* Layer 3 — hot violet/indigo mid-layer, centre-left, slower */
+  .hg-violet {
+    position: absolute;
+    width: 520px; height: 380px;
+    border-radius: 60%;
+    background: radial-gradient(ellipse at 50% 50%,
+      #7040f0 0%,
+      #3318a0 42%,
+      transparent 80%);
+    filter: blur(80px);
+    opacity: 0.38;
+    top: 15%; left: 5%;
+    transition: transform 2s cubic-bezier(0.23,1,0.32,1);
+    transform: translate(calc(var(--mouse-x) * -0.015), calc(var(--mouse-y) * 0.025));
+  }
+
+  /* Layer 4 — tight bright core glow at the "sun" centre, responds fastest */
+  .hg-core {
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #5090ff 0%, #2244cc 45%, transparent 100%);
+    filter: blur(36px);
+    opacity: 0.6;
+    bottom: 80px; left: 120px;
+    transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+    transform: translate(calc(var(--mouse-x) * -0.05), calc(var(--mouse-y) * -0.04));
+  }
+
+  /* Layer 5 — crescent highlight arc, top-left rim */
+  .hg-rim {
+    position: absolute;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: transparent;
+    border: 60px solid transparent;
+    /* conic arc painted as box-shadow */
+    box-shadow:
+      inset 0 0 0 0 transparent,
+      -30px -40px 80px 0px rgba(100,160,255,0.22),
+      -60px -80px 120px 0px rgba(80,120,240,0.15);
+    filter: blur(18px);
+    opacity: 0.9;
+    top: -20px; left: -20px;
+    transition: transform 1.8s cubic-bezier(0.23,1,0.32,1);
+    transform: translate(calc(var(--mouse-x) * -0.02), calc(var(--mouse-y) * -0.022));
+  }
+
+  /* Dark vignette over hero so text stays legible */
+  .hg-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 100%, transparent 40%, rgba(3,4,15,0.6) 100%),
+      linear-gradient(to right, rgba(3,4,15,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* grid noise overlay */
+  .noise {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--heading-font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.9;
+  }
+
+  .nav-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: clamp(5rem, 14vw, 10rem) 0 clamp(3rem, 8vw, 6rem);
+    position: relative;
+  }
+
+  .hero > .container { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--accent3);
+  }
+
+  h1 {
+    font-family: var(--heading-font);
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 1.75rem;
+    max-width: 14ch;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-lead {
+    font-size: clamp(1rem, 1.6vw, 1.1em);
+    color: #b0b8cc;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-limit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    background: rgba(79,142,247,0.08);
+    border: 1px solid rgba(79,142,247,0.25);
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border) 30%, var(--border) 70%, transparent);
+    margin: clamp(2.5rem, 6vw, 5rem) 0;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  h2 {
+    font-family: var(--heading-font);
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-family: var(--heading-font);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #d0d8f0;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── VENUES ── */
+  .venues {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 2.5rem 0;
+  }
+
+  @media (max-width: 580px) {
+    .venues { grid-template-columns: 1fr; }
+  }
+
+  .venue-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    cursor: default;
+  }
+
+  .venue-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(79,142,247,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .venue-card:hover {
+    border-color: rgba(79,142,247,0.4);
+    transform: translateY(-2px);
+  }
+
+  .venue-city {
+    font-family: var(--heading-font);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .venue-detail {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .venue-detail strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .venue-date {
+    font-family: var(--heading-font);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent3);
+    margin: 1rem 0 0.25rem;
+  }
+
+  .venue-time {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-block;
+    font-family: var(--body-font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    box-shadow: 0 0 24px rgba(79,142,247,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 36px rgba(79,142,247,0.5);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    border-color: rgba(79,142,247,0.5);
+    color: #fff;
+  }
+
+  .btn-lg {
+    padding: 1rem 2.5rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 2rem;
+  }
+
+  /* ── TESTIMONIAL ── */
+  .testimonial {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 2rem;
+    margin: 2.5rem 0;
+    background: rgba(79,142,247,0.04);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonial::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(79,142,247,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .testimonial-photo {
+    flex-shrink: 0;
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(79,142,247,0.35);
+    background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(124,95,245,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .testimonial-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* Shown when no image is supplied */
+  .testimonial-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--heading-font);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0;
+  }
+
+  .testimonial-body {
+    flex: 1;
+  }
+
+  .testimonial blockquote {
+    font-size: clamp(1rem, 1.5vw, 1.05em);
+    color: #c8d0e8;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .testimonial cite {
+    font-size: 0.78rem;
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 520px) {
+    .testimonial { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+    .testimonial-photo { width: 56px; height: 56px; }
+  }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.75rem 0;
+  }
+
+  @media (max-width: 520px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+
+  .price-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .price-card.featured {
+    border-color: rgba(79,142,247,0.35);
+    background: rgba(79,142,247,0.06);
+  }
+
+  .price-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .price-label.featured-label { color: var(--accent3); }
+
+  .price-amount {
+    font-family: var(--heading-font);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .price-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ── INCLUDES ── */
+  .includes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.25rem 0;
+  }
+
+  .includes-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #b0b8cc;
+  }
+
+  .includes-list li::before {
+    content: '✦';
+    color: var(--accent3);
+    font-size: 0.65rem;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .inline-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── CURRICULUM ── */
+  .curriculum {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .day-block {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .day-header {
+    padding: 1.25rem 1.75rem;
+    background: rgba(255,255,255,0.025);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .day-number {
+    font-family: var(--heading-font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(79,142,247,0.12);
+    border: 1px solid rgba(79,142,247,0.25);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+  }
+
+  .day-title {
+    font-family: var(--heading-font);
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .day-body {
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .session-block h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent3);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .session-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .session-block ul li {
+    font-size: 0.9rem;
+    color: #9aa3be;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .session-block ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(79,142,247,0.4);
+    font-size: 0.75rem;
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1.4rem 0;
+  }
+
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+
+  .faq-q {
+    font-family: var(--heading-font);
+    font-size: 1rem;
+    font-weight: 600;
+    color: #d8e0f4;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    user-select: none;
+    line-height: 1.4;
+  }
+
+  .faq-q:hover { color: #fff; }
+
+  .faq-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    margin-top: 0.1rem;
+  }
+
+  .faq-item.open .faq-icon {
+    background: rgba(79,142,247,0.15);
+    border-color: rgba(79,142,247,0.4);
+    color: var(--accent);
+  }
+
+  .faq-a {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    line-height: 1.7;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding-top: 0.9rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    margin-top: clamp(4rem, 10vw, 8rem);
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(to right, var(--border), transparent);
+    max-width: 120px;
+  }
+
+  /* ── EMAIL LINK ── */
+  a { color: inherit; }
+
+  /* ── SCROLL FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- GRADIENT STAGE -->
+<div class="gradient-stage">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Daily Maverick × Imagineers.ai</div>
+    <div class="nav-tag">GenAI Masterclass 2025</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Layered hero gradient system -->
+  <div class="hero-gradient-canvas">
+    <div class="hg-sphere"></div>
+    <div class="hg-accent"></div>
+    <div class="hg-violet"></div>
+    <div class="hg-core"></div>
+    <div class="hg-rim"></div>
+    <div class="hg-vignette"></div>
+  </div>
+  <div class="container">
+    <div class="hero-eyebrow">Generative AI Executive Masterclass</div>
+    <h1>Master AI in two days.<br><em>Transform how you work forever.</em></h1>
+    <p class="hero-lead">Launched in 2025, the Daily Maverick × Imagineers.ai GenAI Masterclasses have sold out every single time — driven by overwhelming demand and standout attendee feedback.</p>
+    <p class="hero-lead">This isn't just a course. It's a one-of-a-kind strategic AI retreat for professionals who want to move from watching the wave to riding it.</p>
+    <span class="hero-limit"><span class="dot"></span>Limited to 12 participants per session</span>
+  </div>
+</section>
+
+<!-- VENUES -->
+<section>
+  <div class="container fade-in visible">
+    <div class="section-label">Upcoming Sessions</div>
+    <h2>Choose your city</h2>
+    <div class="venues">
+      <div class="venue-card">
+        <div class="venue-city">Johannesburg</div>
+        <div class="venue-detail">
+          <strong>Workshop 17 The Bank</strong>
+        </div>
+        <div class="venue-date">16–17 February</div>
+        <div class="venue-time">8am – 6pm daily</div>
+        <a href="file:///Users/mac/Downloads/genai-workshops_2.html#register" class="btn btn-primary">Book Joburg Now</a>
+      </div>
+      <div class="venue-card">
+        <div class="venue-city">Cape Town</div>
+        <div class="venue-detail">
+          <strong>Workshop 17 Kloof Street</strong>
+        </div>
+        <div class="venue-date">12–13 March</div>
+        <div class="venue-time">8am – 6pm daily</div>
+        <a href="file:///Users/mac/Downloads/genai-workshops_2.html#register" class="btn btn-primary">Book Cape Town Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section>
+  <div class="container fade-in visible">
+    <div class="testimonial">
+      <div class="testimonial-photo">
+        <!-- Replace src with actual photo URL, or remove <img> to show initials -->
+        <!-- <img src="photo.jpg" alt="René Morse"> -->
+        <div class="testimonial-photo-placeholder">RM</div>
+      </div>
+      <div class="testimonial-body">
+        <blockquote>"I cannot think that there will be anything more valuable I will do this year!"</blockquote>
+        <cite>René Morse — National Claims Manager, ONE</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="section-divider"></div></div>
+
+<!-- INVESTMENT -->
+<section id="register">
+  <div class="container fade-in visible">
+    <div class="section-label">Investment</div>
+    <h2>What it costs</h2>
+
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="price-label featured-label">Maverick Insiders</div>
+        <div class="price-amount">R15,000</div>
+        <div class="price-note">Early-bird offer</div>
+      </div>
+      <div class="price-card">
+        <div class="price-label">Non-Insiders</div>
+        <div class="price-amount">R19,500</div>
+        <div class="price-note">Standard rate</div>
+      </div>
+    </div>
+
+    <p style="font-size:0.9rem; color: var(--muted); margin-bottom:1.25rem;">*Exclusively for Insiders who contribute R200 or more per month (or R2,400+ annually). <a href="file:///Users/mac/Downloads/genai-workshops_2.html#" class="inline-link">Become a Maverick Insider here.</a> Email <a href="file:///cdn-cgi/l/email-protection#39564b5d5c4b4a795d5850554054584f5c4b505a52175a56174358" class="inline-link"><span class="__cf_email__" data-cfemail="0b64796f6e79784b6f6a626772666a7d6e7962686025686425716a">[email&nbsp;protected]</span></a> for your exclusive discount code.</p>
+
+    <h3>What's included</h3>
+    <ul class="includes-list">
+      <li>Two full days of intensive AI training</li>
+      <li>All meals — morning snacks and lunch both days</li>
+      <li>Refreshments throughout both days</li>
+      <li>Retreat materials and AI glossary</li>
+      <li>Ongoing resource access post-workshop</li>
+      <li>Group networking dinner</li>
+    </ul>
+
+    <a href="file:///Users/mac/Downloads/genai-workshops_2.html#" class="btn btn-primary btn-lg">Register Now</a>
+  </div>
+</section>
+
+<div class="container"><div class="section-divider"></div></div>
+
+<!-- CURRICULUM -->
+<section>
+  <div class="container fade-in visible">
+    <div class="section-label">Programme</div>
+    <h2>What you'll learn</h2>
+    <p style="color: var(--muted); margin-bottom: 2rem; max-width: 620px;">A two-day intensive where you'll stop experimenting and start implementing. No lectures. No theory dumps. Just practical, hands-on sessions with workflows you can use immediately.</p>
+
+    <div class="curriculum">
+
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-number">Day 1</span>
+          <span class="day-title">Foundations &amp; Implementation</span>
+        </div>
+        <div class="day-body">
+          <div class="session-block">
+            <h4>Morning</h4>
+            <ul>
+              <li>Generative AI fundamentals: what works, what doesn't, and why</li>
+              <li>Platform overview: Claude, ChatGPT, Gemini, and specialised tools</li>
+              <li>Hands-on session: Basic to advanced prompting techniques</li>
+              <li>Workshop: Crafting domain-specific prompts for your profession</li>
+            </ul>
+          </div>
+          <div class="session-block">
+            <h4>Afternoon</h4>
+            <ul>
+              <li>AI for professional content creation: proposals, articles, client communications</li>
+              <li>Editing and refining AI outputs to maintain your voice</li>
+              <li>Real-world applications in your industry</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-header">
+          <span class="day-number">Day 2</span>
+          <span class="day-title">Advanced Tools &amp; Integration</span>
+        </div>
+        <div class="day-body">
+          <div class="session-block">
+            <h4>Morning</h4>
+            <ul>
+              <li>Survey of specialised AI tools</li>
+              <li>Research assistants, data analysis tools, and visual generators</li>
+              <li>Test 2–3 tools most relevant to your work</li>
+            </ul>
+          </div>
+          <div class="session-block">
+            <h4>Afternoon</h4>
+            <ul>
+              <li>Building AI into your daily workflow</li>
+              <li>Agents and vibe coding</li>
+              <li>Mapping your professional practice</li>
+            </ul>
+          </div>
+          <div class="session-block">
+            <h4>Closing</h4>
+            <ul>
+              <li>Creating your 90-day AI plan</li>
+              <li>Resources for continued learning</li>
+              <li>Future-proofing your practice in an AI-driven world</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="section-divider"></div></div>
+
+<!-- FAQ -->
+<section>
+  <div class="container fade-in visible">
+    <div class="section-label">Questions</div>
+    <h2>Frequently asked</h2>
+    <div class="faq">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          I've never used AI tools before. Is this too advanced?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Not at all. We start with fundamentals and build systematically. Many participants are AI beginners who leave as confident implementers.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Will this be relevant to my specific profession?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes. The workshop is designed for cross-industry application. You'll learn frameworks that apply to any professional context, with time to customise workflows for your specific needs.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What if I can't attend both days?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">The retreat is designed as an integrated experience. Both days build on each other, and the real transformation happens when you complete the full programme.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is there a limit on attendees?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Yes. We cap each session at 12 participants to ensure quality interaction, direct access to facilitators, and meaningful peer learning.</div>
+      </div>
+
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What's the refund policy?
+          <span class="faq-icon">×</span>
+        </div>
+        <div class="faq-a">Because we incur travel and venue commitments and non-refundable catering costs, a reasonable cancellation charge may apply, scaled according to when you cancel. You can transfer your seat if absolutely necessary.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>Daily Maverick × Imagineers.ai &nbsp;·&nbsp; GenAI Masterclass 2025 &nbsp;·&nbsp; <a href="file:///cdn-cgi/l/email-protection#167964727364655672777f7a6f7b776073647f757d387579386c77"><span class="__cf_email__" data-cfemail="076875636275744763666e6b7e6a667162756e646c296468297d66">[email&nbsp;protected]</span></a></p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="file:///cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── Mouse parallax for orbs + hero layers ──
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    document.documentElement.style.setProperty('--mouse-x', x + '%');
+    document.documentElement.style.setProperty('--mouse-y', y + '%');
+    // Hero gradient layers use CSS vars so they update automatically
+  });
+
+  // ── Mobile: scroll parallax ──
+  if (window.matchMedia('(hover: none)').matches) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+          document.documentElement.style.setProperty('--mouse-x', (progress * 100) + '%');
+          document.documentElement.style.setProperty('--mouse-y', (progress * 100) + '%');
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+
+  // ── FAQ accordion ──
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-icon').textContent = '+';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      item.querySelector('.faq-icon').textContent = '×';
+    }
+  }
+
+  // ── Scroll fade-in ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body></html>
